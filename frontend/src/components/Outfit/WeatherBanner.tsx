@@ -1,0 +1,31 @@
+interface WeatherSnapshot {
+  temp_c: number
+  feels_like_c: number
+  description: string
+  icon_code: string
+  humidity: number
+  wind_kph: number
+}
+
+interface Props {
+  weather: WeatherSnapshot
+}
+
+export default function WeatherBanner({ weather }: Props) {
+  const iconUrl = `https://openweathermap.org/img/wn/${weather.icon_code}@2x.png`
+
+  return (
+    <div className="mx-4 mt-4 rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-500 p-4 text-white shadow-md">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-3xl font-bold">{Math.round(weather.temp_c)}°C</p>
+          <p className="text-sm opacity-90 capitalize">{weather.description}</p>
+          <p className="text-xs opacity-75 mt-1">
+            Feels like {Math.round(weather.feels_like_c)}°C · {weather.wind_kph} km/h wind
+          </p>
+        </div>
+        <img src={iconUrl} alt={weather.description} className="w-16 h-16" />
+      </div>
+    </div>
+  )
+}

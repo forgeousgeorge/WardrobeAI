@@ -31,8 +31,8 @@ export default function OutfitPage() {
 
   return (
     <div>
-      <div className="px-4 pt-[calc(1rem+env(safe-area-inset-top))] pb-3 bg-white border-b border-gray-100">
-        <h1 className="text-xl font-bold text-gray-900 mb-3">Today's Outfit</h1>
+      <div className="px-4 pt-[calc(1rem+env(safe-area-inset-top))] pb-3 bg-white border-b-2 border-brand-100">
+        <h1 className="text-xl font-bold text-brand-700 mb-3">Today's Outfit</h1>
         <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
           {OCCASIONS.map((occ) => (
             <button
@@ -41,7 +41,7 @@ export default function OutfitPage() {
               className={`flex-shrink-0 px-4 py-1.5 rounded-full text-sm font-medium capitalize transition-colors ${
                 occasion === occ
                   ? 'bg-brand-600 text-white'
-                  : 'bg-gray-100 text-gray-600 active:bg-gray-200'
+                  : 'bg-brand-100 text-brand-700 active:bg-brand-200'
               }`}
             >
               {occ}

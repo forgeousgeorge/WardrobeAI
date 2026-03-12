@@ -15,9 +15,9 @@ export default function ClothingCard({ item, onSelect, onArchive }: Props) {
   return (
     <button
       onClick={() => onSelect?.(item)}
-      className="relative rounded-2xl overflow-hidden bg-white shadow-sm text-left w-full active:scale-[0.98] transition-transform"
+      className="relative rounded-2xl overflow-hidden bg-white shadow-sm ring-1 ring-brand-200 text-left w-full active:scale-[0.98] transition-transform"
     >
-      <div className="aspect-[3/4] bg-gray-100">
+      <div className="aspect-[3/4] bg-brand-50">
         {item.image_url ? (
           <img
             src={item.image_url}
@@ -51,7 +51,7 @@ export default function ClothingCard({ item, onSelect, onArchive }: Props) {
       {onArchive && (
         <button
           onClick={(e) => { e.stopPropagation(); onArchive(item.id) }}
-          className="absolute top-2 right-2 bg-white/80 rounded-full p-1.5 text-gray-500 active:bg-gray-100"
+          className="absolute top-2 right-2 bg-white/80 rounded-full p-1.5 text-brand-400 active:bg-brand-100"
           aria-label="Archive"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -2,10 +2,12 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { authApi } from '../api/auth'
 import { useAuthStore } from '../stores/authStore'
+import { useThemeStore, THEME_LABELS, ThemeKey } from '../stores/themeStore'
 
 export default function ProfilePage() {
   const navigate = useNavigate()
   const { user, refreshToken, setUser, clearAuth } = useAuthStore()
+  const { theme, setTheme } = useThemeStore()
   const [form, setForm] = useState({
     display_name: user?.display_name || '',
     city: user?.city || '',
@@ -41,14 +43,14 @@ export default function ProfilePage() {
 
   return (
     <div>
-      <div className="px-4 pt-[calc(1rem+env(safe-area-inset-top))] pb-4 bg-white border-b border-gray-100">
-        <h1 className="text-xl font-bold text-gray-900">Profile</h1>
+      <div className="px-4 pt-[calc(1rem+env(safe-area-inset-top))] pb-4 bg-white border-b-2 border-brand-100">
+        <h1 className="text-xl font-bold text-brand-700">Profile</h1>
         <p className="text-sm text-gray-500">{user?.email}</p>
       </div>
 
       <div className="p-4">
         <form onSubmit={handleSave} className="bg-white rounded-2xl p-4 shadow-sm space-y-4">
-          <h2 className="font-semibold text-gray-800">Account Settings</h2>
+          <h2 className="font-semibold text-brand-700">Account Settings</h2>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Display Name</label>
@@ -82,6 +84,20 @@ export default function ProfilePage() {
               className="w-full rounded-xl border-gray-300 shadow-sm focus:ring-brand-500 focus:border-brand-500"
               placeholder="US"
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">App Theme</label>
+            <select
+              value={theme}
+              onChange={(e) => setTheme(e.target.value as ThemeKey)}
+              className="w-full rounded-xl border-gray-300 shadow-sm focus:ring-brand-500 focus:border-brand-500"
+            >
+              {(Object.entries(THEME_LABELS) as [ThemeKey, string][]).map(([key, label]) => (
+                <option key={key} value={key}>{label}</option>
+              ))}
+            </select>
+            <p className="mt-1 text-xs text-gray-500">Changes apply immediately</p>
           </div>
 
           <button

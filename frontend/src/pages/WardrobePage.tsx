@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react'
-import { clothingApi } from '../api/clothing'
+import { ClothingItem, clothingApi } from '../api/clothing'
 import PhotoUploader from '../components/Camera/PhotoUploader'
 import ClothingGrid from '../components/Clothing/ClothingGrid'
+import ClothingDetailModal from '../components/Clothing/ClothingDetailModal'
 import { useWardrobeStore } from '../stores/wardrobeStore'
 
 export default function WardrobePage() {
   const { items, loading, setItems, removeItem, setLoading } = useWardrobeStore()
   const [showUploader, setShowUploader] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [selectedItem, setSelectedItem] = useState<ClothingItem | null>(null)
 
   useEffect(() => {
     async function load() {
@@ -61,8 +63,14 @@ export default function WardrobePage() {
           <div className="w-8 h-8 border-4 border-brand-500 border-t-transparent rounded-full animate-spin" />
         </div>
       ) : (
-        <ClothingGrid items={items} onArchive={handleArchive} />
+        <ClothingGrid items={items} onSelect={setSelectedItem} onArchive={handleArchive} />
       )}
+
+      <ClothingDetailModal
+        item={selectedItem}
+        onClose={() => setSelectedItem(null)}
+        onArchive={handleArchive}
+      />
     </div>
   )
 }

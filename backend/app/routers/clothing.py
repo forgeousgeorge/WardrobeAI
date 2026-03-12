@@ -17,6 +17,13 @@ from app.services import claude_service, minio_service
 
 router = APIRouter(prefix="/clothing", tags=["clothing"])
 
+
+def _generate_name(classification: dict) -> str:
+    color = classification.get("primary_color") or ""
+    label = classification.get("subcategory") or classification.get("category") or "item"
+    parts = [p.title() for p in [color, label] if p]
+    return " ".join(parts)
+
 ALLOWED_TYPES = {"image/jpeg", "image/png", "image/webp", "image/heic"}
 
 
@@ -73,6 +80,7 @@ async def upload_clothing(
         id=item_id,
         user_id=current_user.id,
         image_key=image_key,
+        name=_generate_name(classification),
         category=classification.get("category", "unknown"),
         subcategory=classification.get("subcategory"),
         primary_color=classification.get("primary_color"),

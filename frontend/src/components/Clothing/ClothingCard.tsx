@@ -7,17 +7,21 @@ const categoryEmoji: Record<string, string> = {
 
 interface Props {
   item: ClothingItem
+  onSelect?: (item: ClothingItem) => void
   onArchive?: (id: string) => void
 }
 
-export default function ClothingCard({ item, onArchive }: Props) {
+export default function ClothingCard({ item, onSelect, onArchive }: Props) {
   return (
-    <div className="relative rounded-2xl overflow-hidden bg-white shadow-sm">
+    <button
+      onClick={() => onSelect?.(item)}
+      className="relative rounded-2xl overflow-hidden bg-white shadow-sm text-left w-full active:scale-[0.98] transition-transform"
+    >
       <div className="aspect-[3/4] bg-gray-100">
         {item.image_url ? (
           <img
             src={item.image_url}
-            alt={item.subcategory || item.category}
+            alt={item.name ?? item.subcategory ?? item.category}
             className="w-full h-full object-cover"
             loading="lazy"
           />
@@ -29,7 +33,7 @@ export default function ClothingCard({ item, onArchive }: Props) {
       </div>
       <div className="p-2">
         <p className="text-xs font-semibold text-gray-800 truncate capitalize">
-          {item.subcategory || item.category}
+          {item.name ?? item.subcategory ?? item.category}
         </p>
         {item.primary_color && (
           <p className="text-xs text-gray-500 capitalize">{item.primary_color}</p>
@@ -46,8 +50,9 @@ export default function ClothingCard({ item, onArchive }: Props) {
       </div>
       {onArchive && (
         <button
-          onClick={() => onArchive(item.id)}
+          onClick={(e) => { e.stopPropagation(); onArchive(item.id) }}
           className="absolute top-2 right-2 bg-white/80 rounded-full p-1.5 text-gray-500 active:bg-gray-100"
+          aria-label="Archive"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
@@ -55,6 +60,6 @@ export default function ClothingCard({ item, onArchive }: Props) {
           </svg>
         </button>
       )}
-    </div>
+    </button>
   )
 }

@@ -17,8 +17,12 @@ class Settings(BaseSettings):
     minio_bucket: str = "wardrobe-images"
     minio_secure: bool = False
 
-    claude_api_key: str
+    claude_api_key: str = ""
     claude_model: str = "claude-haiku-4-5-20251001"
+
+    vision_backend: str = "local"  # "claude" | "local"
+    ollama_host: str = "http://ollama:11434"
+    vision_model: str = "llama3.2-vision:11b"
 
     openweather_api_key: str
     openweather_base_url: str = "https://api.openweathermap.org/data/2.5"

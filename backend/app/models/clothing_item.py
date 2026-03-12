@@ -14,6 +14,7 @@ class ClothingItem(Base):
     id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     user_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"))
     image_key: Mapped[str] = mapped_column(String(512), nullable=False)
+    name: Mapped[str | None] = mapped_column(String(200))
     category: Mapped[str] = mapped_column(String(50), default="unknown")
     subcategory: Mapped[str | None] = mapped_column(String(100))
     primary_color: Mapped[str | None] = mapped_column(String(50))

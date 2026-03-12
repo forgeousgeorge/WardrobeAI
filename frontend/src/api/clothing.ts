@@ -4,6 +4,7 @@ export interface ClothingItem {
   id: string
   user_id: string
   image_url: string | null
+  name: string | null
   category: string
   subcategory: string | null
   primary_color: string | null
@@ -14,6 +15,7 @@ export interface ClothingItem {
   brand: string | null
   notes: string | null
   is_active: boolean
+  classification_raw: Record<string, unknown> | null
   created_at: string
 }
 
@@ -31,7 +33,7 @@ export const clothingApi = {
 
   get: (id: string) => api.get<ClothingItem>(`/clothing/${id}`),
 
-  update: (id: string, data: Partial<Pick<ClothingItem, 'brand' | 'notes' | 'style_tags' | 'season_tags' | 'category' | 'subcategory'>>) =>
+  update: (id: string, data: Partial<Pick<ClothingItem, 'name' | 'brand' | 'notes' | 'style_tags' | 'season_tags' | 'category' | 'subcategory'>>) =>
     api.patch<ClothingItem>(`/clothing/${id}`, data),
 
   delete: (id: string) => api.delete(`/clothing/${id}`),

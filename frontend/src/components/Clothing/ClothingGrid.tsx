@@ -3,10 +3,11 @@ import ClothingCard from './ClothingCard'
 
 interface Props {
   items: ClothingItem[]
+  onSelect?: (item: ClothingItem) => void
   onArchive?: (id: string) => void
 }
 
-export default function ClothingGrid({ items, onArchive }: Props) {
+export default function ClothingGrid({ items, onSelect, onArchive }: Props) {
   if (items.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-center px-6">
@@ -20,7 +21,7 @@ export default function ClothingGrid({ items, onArchive }: Props) {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 p-4">
       {items.map((item) => (
-        <ClothingCard key={item.id} item={item} onArchive={onArchive} />
+        <ClothingCard key={item.id} item={item} onSelect={onSelect} onArchive={onArchive} />
       ))}
     </div>
   )

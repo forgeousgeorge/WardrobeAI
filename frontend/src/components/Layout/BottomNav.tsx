@@ -36,7 +36,7 @@ const tabs = [
 export default function BottomNav() {
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex items-center z-50"
+      className="fixed bottom-0 left-0 right-0 bg-white border-t border-brand-200 flex items-center z-50"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
       {tabs.map((tab) => (
@@ -44,13 +44,18 @@ export default function BottomNav() {
           key={tab.to}
           to={tab.to}
           className={({ isActive }) =>
-            `flex-1 flex flex-col items-center justify-center py-2 text-xs font-medium transition-colors ${
-              isActive ? 'text-brand-600' : 'text-gray-400'
+            `relative flex-1 flex flex-col items-center justify-center py-2 text-xs font-medium transition-colors ${
+              isActive ? 'text-brand-600' : 'text-brand-300'
             }`
           }
         >
-          {tab.icon}
-          <span className="mt-1">{tab.label}</span>
+          {({ isActive }) => (
+            <>
+              <div className={`absolute top-0 left-1/2 -translate-x-1/2 h-0.5 w-8 rounded-full transition-all duration-200 ${isActive ? 'bg-brand-500' : 'bg-transparent'}`} />
+              {tab.icon}
+              <span className="mt-1">{tab.label}</span>
+            </>
+          )}
         </NavLink>
       ))}
     </nav>

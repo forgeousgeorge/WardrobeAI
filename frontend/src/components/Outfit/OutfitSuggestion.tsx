@@ -29,16 +29,16 @@ export default function OutfitSuggestionCard({ suggestion, onRated }: Props) {
 
       <div className="px-4 mt-4">
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-lg font-semibold text-gray-800 capitalize">
+          <h2 className="text-lg font-semibold text-brand-700 capitalize">
             {suggestion.occasion_tag || 'casual'} outfit
           </h2>
-          <span className="text-xs text-gray-400">
+          <span className="text-xs text-brand-400">
             {new Date(suggestion.suggested_date).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
           </span>
         </div>
 
         {suggestion.reasoning && (
-          <p className="text-sm text-gray-600 mb-4 bg-white rounded-xl p-3 shadow-sm">
+          <p className="text-sm text-gray-600 mb-4 bg-white rounded-xl p-3 shadow-sm border-l-4 border-brand-400">
             {suggestion.reasoning}
           </p>
         )}
@@ -53,7 +53,7 @@ export default function OutfitSuggestionCard({ suggestion, onRated }: Props) {
 
         {/* Rating */}
         <div className="bg-white rounded-xl p-4 shadow-sm">
-          <p className="text-sm text-gray-600 mb-2 text-center">How was this outfit?</p>
+          <p className="text-sm font-medium text-brand-600 mb-2 text-center">How was this outfit?</p>
           <div className="flex justify-center gap-2">
             {[1, 2, 3, 4, 5].map((star) => (
               <button

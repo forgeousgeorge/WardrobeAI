@@ -2,11 +2,146 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Safe-area insets ─────────────────────────────────────────────── */
 :root {
   --safe-area-top: env(safe-area-inset-top);
   --safe-area-bottom: env(safe-area-inset-bottom);
   --safe-area-left: env(safe-area-inset-left);
   --safe-area-right: env(safe-area-inset-right);
+}
+
+/* ─── Theme: Light (default) ────────────────────────────────────────── */
+:root, [data-theme="light"] {
+  --brand-50:  238 242 255;
+  --brand-100: 224 231 255;
+  --brand-200: 199 210 254;
+  --brand-300: 165 180 252;
+  --brand-400: 129 140 248;
+  --brand-500: 99  102 241;
+  --brand-600: 79  70  229;
+  --brand-700: 67  56  202;
+}
+
+/* ─── Theme: Dark ───────────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --brand-50:  46  16  101;
+  --brand-100: 76  29  149;
+  --brand-200: 109 40  217;
+  --brand-300: 139 92  246;
+  --brand-400: 167 139 250;
+  --brand-500: 167 139 250;
+  --brand-600: 139 92  246;
+  --brand-700: 167 139 250;
+  color-scheme: dark;
+}
+[data-theme="dark"] .bg-gray-50   { background-color: #181825 !important; }
+[data-theme="dark"] .bg-gray-100  { background-color: #313244 !important; }
+[data-theme="dark"] .bg-white     { background-color: #1e1e2e !important; }
+[data-theme="dark"] .bg-red-50    { background-color: #2d1b1b !important; }
+[data-theme="dark"] .border-gray-100 { border-color: #313244 !important; }
+[data-theme="dark"] .border-gray-200 { border-color: #45475a !important; }
+[data-theme="dark"] .border-gray-300 { border-color: #585b70 !important; }
+[data-theme="dark"] .text-gray-900 { color: #cdd6f4 !important; }
+[data-theme="dark"] .text-gray-800 { color: #bac2de !important; }
+[data-theme="dark"] .text-gray-700 { color: #a6adc8 !important; }
+[data-theme="dark"] .text-gray-600 { color: #7f849c !important; }
+[data-theme="dark"] .text-gray-500 { color: #6c7086 !important; }
+[data-theme="dark"] .text-gray-400 { color: #585b70 !important; }
+[data-theme="dark"] .text-red-600  { color: #f38ba8 !important; }
+[data-theme="dark"] .shadow-sm { box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.4) !important; }
+[data-theme="dark"] input,
+[data-theme="dark"] select {
+  background-color: #2a2a3d !important;
+  color: #cdd6f4 !important;
+  border-color: #45475a !important;
+}
+
+/* ─── Theme: Spring — vivid lime green, fresh growth ────────────────── */
+[data-theme="spring"] {
+  --brand-50:  247 254 231;
+  --brand-100: 236 252 203;
+  --brand-200: 190 242 100;
+  --brand-300: 163 230 53;
+  --brand-400: 148 217 38;
+  --brand-500: 132 204 22;
+  --brand-600: 101 163 13;
+  --brand-700: 77  124 15;
+}
+[data-theme="spring"] .bg-gray-50     { background-color: #d9f99d !important; }
+[data-theme="spring"] .bg-white       { background-color: #ecfccb !important; }
+[data-theme="spring"] .border-gray-100 { border-color: #d9f99d !important; }
+[data-theme="spring"] .border-gray-200 { border-color: #bef264 !important; }
+[data-theme="spring"] .border-gray-300 { border-color: #a3e635 !important; }
+[data-theme="spring"] input,
+[data-theme="spring"] select {
+  background-color: #ecfccb !important;
+  border-color: #a3e635 !important;
+}
+
+/* ─── Theme: Summer — vivid yellow, bright sunshine ─────────────────── */
+[data-theme="summer"] {
+  --brand-50:  254 252 232;
+  --brand-100: 254 249 195;
+  --brand-200: 253 224 71;
+  --brand-300: 250 204 21;
+  --brand-400: 234 179 8;
+  --brand-500: 234 179 8;
+  --brand-600: 202 138 4;
+  --brand-700: 161 98  7;
+}
+[data-theme="summer"] .bg-gray-50     { background-color: #fef08a !important; }
+[data-theme="summer"] .bg-white       { background-color: #fef9c3 !important; }
+[data-theme="summer"] .border-gray-100 { border-color: #fef08a !important; }
+[data-theme="summer"] .border-gray-200 { border-color: #fde047 !important; }
+[data-theme="summer"] .border-gray-300 { border-color: #facc15 !important; }
+[data-theme="summer"] input,
+[data-theme="summer"] select {
+  background-color: #fef9c3 !important;
+  border-color: #facc15 !important;
+}
+
+/* ─── Theme: Autumn — vivid orange, harvest warmth ──────────────────── */
+[data-theme="autumn"] {
+  --brand-50:  255 247 237;
+  --brand-100: 255 237 213;
+  --brand-200: 253 186 116;
+  --brand-300: 251 146 60;
+  --brand-400: 249 115 22;
+  --brand-500: 249 115 22;
+  --brand-600: 234 88  12;
+  --brand-700: 194 65  12;
+}
+[data-theme="autumn"] .bg-gray-50     { background-color: #fed7aa !important; }
+[data-theme="autumn"] .bg-white       { background-color: #ffedd5 !important; }
+[data-theme="autumn"] .border-gray-100 { border-color: #fed7aa !important; }
+[data-theme="autumn"] .border-gray-200 { border-color: #fdba74 !important; }
+[data-theme="autumn"] .border-gray-300 { border-color: #fb923c !important; }
+[data-theme="autumn"] input,
+[data-theme="autumn"] select {
+  background-color: #ffedd5 !important;
+  border-color: #fb923c !important;
+}
+
+/* ─── Theme: Winter — bright sky blue, crisp & clear ────────────────── */
+[data-theme="winter"] {
+  --brand-50:  240 249 255;
+  --brand-100: 224 242 254;
+  --brand-200: 125 211 252;
+  --brand-300: 56  189 248;
+  --brand-400: 14  165 233;
+  --brand-500: 56  189 248;
+  --brand-600: 14  165 233;
+  --brand-700: 2   132 199;
+}
+[data-theme="winter"] .bg-gray-50     { background-color: #bae6fd !important; }
+[data-theme="winter"] .bg-white       { background-color: #e0f2fe !important; }
+[data-theme="winter"] .border-gray-100 { border-color: #bae6fd !important; }
+[data-theme="winter"] .border-gray-200 { border-color: #7dd3fc !important; }
+[data-theme="winter"] .border-gray-300 { border-color: #38bdf8 !important; }
+[data-theme="winter"] input,
+[data-theme="winter"] select {
+  background-color: #e0f2fe !important;
+  border-color: #38bdf8 !important;
 }
 
 html, body, #root {

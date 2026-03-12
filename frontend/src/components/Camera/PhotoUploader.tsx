@@ -65,7 +65,7 @@ export default function PhotoUploader() {
         </label>
       ) : (
         <div className="space-y-3">
-          <div className="aspect-[3/4] w-full max-w-xs mx-auto rounded-2xl overflow-hidden bg-gray-100">
+          <div className="aspect-[3/4] w-full max-w-xs mx-auto rounded-2xl overflow-hidden bg-brand-50">
             <img src={preview} alt="Preview" className="w-full h-full object-cover" />
           </div>
           {uploading ? (
@@ -77,7 +77,7 @@ export default function PhotoUploader() {
             <div className="flex gap-3">
               <button
                 onClick={handleRetake}
-                className="flex-1 py-3 rounded-xl border border-gray-300 text-gray-700 font-medium text-sm"
+                className="flex-1 py-3 rounded-xl border border-brand-300 text-brand-700 font-medium text-sm"
               >
                 Retake
               </button>

@@ -15,7 +15,7 @@ export default function WeatherBanner({ weather }: Props) {
   const iconUrl = `https://openweathermap.org/img/wn/${weather.icon_code}@2x.png`
 
   return (
-    <div className="mx-4 mt-4 rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-500 p-4 text-white shadow-md">
+    <div className="mx-4 mt-4 rounded-2xl bg-gradient-to-r from-brand-500 to-brand-700 p-4 text-white shadow-md">
       <div className="flex items-center justify-between">
         <div>
           <p className="text-3xl font-bold">{Math.round(weather.temp_c)}°C</p>

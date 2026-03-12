@@ -24,7 +24,7 @@ function TagList({ tags }: { tags: string[] }) {
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="flex items-start gap-3 py-2.5 border-b border-gray-100 last:border-0">
-      <span className="text-xs text-gray-400 w-28 shrink-0 pt-0.5">{label}</span>
+      <span className="text-xs text-brand-500 w-28 shrink-0 pt-0.5 font-medium">{label}</span>
       <div className="flex-1 text-sm text-gray-800">{children}</div>
     </div>
   )
@@ -63,13 +63,13 @@ export default function ClothingDetailModal({ item, onClose, onArchive }: Props)
       <div className="relative w-full bg-white rounded-t-3xl max-h-[90dvh] flex flex-col">
         {/* Drag handle */}
         <div className="flex justify-center pt-3 pb-1">
-          <div className="w-10 h-1 bg-gray-300 rounded-full" />
+          <div className="w-10 h-1 bg-brand-300 rounded-full" />
         </div>
 
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 active:text-gray-600"
+          className="absolute top-4 right-4 text-brand-400 active:text-brand-600"
           aria-label="Close"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -79,7 +79,7 @@ export default function ClothingDetailModal({ item, onClose, onArchive }: Props)
 
         <div className="overflow-y-auto flex-1 px-4 pb-6">
           {/* Image */}
-          <div className="w-full aspect-[3/4] bg-gray-100 rounded-2xl overflow-hidden mb-4">
+          <div className="w-full aspect-[3/4] bg-brand-50 rounded-2xl overflow-hidden mb-4">
             {item.image_url ? (
               <img src={item.image_url} alt={item.name ?? item.subcategory ?? item.category} className="w-full h-full object-cover" />
             ) : (

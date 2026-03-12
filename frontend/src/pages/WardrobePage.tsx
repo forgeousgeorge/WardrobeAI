@@ -37,8 +37,8 @@ export default function WardrobePage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between px-4 pt-[calc(1rem+env(safe-area-inset-top))] pb-2 bg-white border-b border-gray-100">
-        <h1 className="text-xl font-bold text-gray-900">My Wardrobe</h1>
+      <div className="flex items-center justify-between px-4 pt-[calc(1rem+env(safe-area-inset-top))] pb-2 bg-white border-b-2 border-brand-100">
+        <h1 className="text-xl font-bold text-brand-700">My Wardrobe</h1>
         <button
           onClick={() => setShowUploader((v) => !v)}
           className="flex items-center gap-1.5 bg-brand-600 text-white text-sm font-medium px-4 py-2 rounded-xl active:bg-brand-700"

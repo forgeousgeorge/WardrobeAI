@@ -74,8 +74,19 @@ async def upload_clothing(
     ext = _ext_from_content_type(content_type)
 
     image_key = minio_service.upload_image(current_user.id, item_id, image_bytes, content_type, ext)
-    classification = claude_service.classify_image(image_bytes, content_type)
+    classification = await claude_service.classify_image(image_bytes, content_type)
 
+    if "error" in classification:
+        try:
+            minio_service.delete_object(image_key)
+        except Exception:
+            pass
+        raise HTTPException(
+            status_code=502,
+            detail=f"Classification failed: {classification['error']}. Please try again or add the item manually.",
+        )
+
+    tr = classification.get("temp_range_c") or {}
     item = ClothingItem(
         id=item_id,
         user_id=current_user.id,
@@ -86,8 +97,13 @@ async def upload_clothing(
         primary_color=classification.get("primary_color"),
         secondary_colors=classification.get("secondary_colors"),
         style_tags=classification.get("style_tags"),
+        occasion_tags=classification.get("occasion_tags"),
         season_tags=classification.get("season_tags"),
+        pattern=classification.get("pattern"),
+        silhouette=classification.get("silhouette"),
         warmth_level=classification.get("warmth_level"),
+        temp_range_min=tr.get("min"),
+        temp_range_max=tr.get("max"),
         classification_raw=classification,
     )
     db.add(item)
@@ -101,6 +117,7 @@ async def upload_clothing(
 async def list_clothing(
     category: str | None = Query(None),
     season: str | None = Query(None),
+    temp_c: float | None = Query(None, description="Filter items appropriate for this temperature in Celsius"),
     is_active: bool = Query(True),
     page: int = Query(1, ge=1),
     limit: int = Query(20, ge=1, le=100),
@@ -115,6 +132,11 @@ async def list_clothing(
         q = q.where(ClothingItem.category == category)
     if season:
         q = q.where(ClothingItem.season_tags.contains([season]))
+    if temp_c is not None:
+        q = q.where(
+            ClothingItem.temp_range_min <= temp_c,
+            ClothingItem.temp_range_max >= temp_c,
+        )
 
     q = q.order_by(ClothingItem.created_at.desc()).offset((page - 1) * limit).limit(limit)
     result = await db.execute(q)

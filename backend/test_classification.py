@@ -6,6 +6,7 @@ Run from the backend/ directory:
 If no argument is given, fetches a sample white t-shirt image from the web.
 """
 
+import asyncio
 import sys
 import json
 import os
@@ -56,13 +57,13 @@ def load_image(source: str) -> tuple[bytes, str]:
         return path.read_bytes(), media_type
 
 
-def main():
+async def main():
     source = sys.argv[1] if len(sys.argv) > 1 else SAMPLE_IMAGE_URL
     image_bytes, media_type = load_image(source)
     print(f"Image loaded: {len(image_bytes):,} bytes  ({media_type})\n")
 
     print("Calling Claude Vision classification...")
-    result = classify_image(image_bytes, media_type)
+    result = await classify_image(image_bytes, media_type)
 
     if "error" in result:
         print(f"\nERROR: {result['error']}")
@@ -82,4 +83,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

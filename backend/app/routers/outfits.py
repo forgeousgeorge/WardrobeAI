@@ -90,7 +90,7 @@ async def suggest_outfit(
         for item in wardrobe
     ]
 
-    suggestion_data = claude_service.suggest_outfit(weather, wardrobe_payload, occasion)
+    suggestion_data = await claude_service.suggest_outfit(weather, wardrobe_payload, occasion)
 
     # Validate returned UUIDs against actual wardrobe
     wardrobe_ids = {str(item.id) for item in wardrobe}

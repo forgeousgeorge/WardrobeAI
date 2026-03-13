@@ -1,11 +1,30 @@
+import logging
 from contextlib import asynccontextmanager
 
+import httpx
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.routers import auth, clothing, outfits
 from app.services import minio_service
+
+logger = logging.getLogger(__name__)
+
+
+async def _check_ollama_models() -> None:
+    models = [settings.active_vision_model, settings.active_text_model]
+    async with httpx.AsyncClient(timeout=10.0) as client:
+        for model in models:
+            try:
+                r = await client.post(
+                    f"{settings.ollama_host}/api/show",
+                    json={"name": model},
+                )
+                if r.status_code != 200:
+                    logger.warning("Model '%s' not found in Ollama. Run: ollama pull %s", model, model)
+            except Exception as exc:
+                logger.warning("Could not verify model '%s': %s", model, exc)
 
 
 @asynccontextmanager
@@ -15,6 +34,8 @@ async def lifespan(app: FastAPI):
         minio_service.ensure_bucket()
     except Exception as exc:
         print(f"WARNING: Could not ensure MinIO bucket: {exc}")
+    if settings.vision_backend == "local":
+        await _check_ollama_models()
     yield
     # Shutdown: nothing to clean up
 
@@ -27,8 +48,9 @@ app = FastAPI(
 
 origins = ["http://localhost:5173", "http://localhost:80", "http://localhost"]
 if settings.environment == "production":
-    # In prod, nginx serves frontend on port 80 — same origin after proxy
-    origins = ["*"]
+    # Never use ["*"] with allow_credentials=True — browsers reject it.
+    # Add your public domain here when deploying externally.
+    origins = ["http://localhost", "http://localhost:80"]
 
 app.add_middleware(
     CORSMiddleware,

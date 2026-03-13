@@ -23,6 +23,19 @@ class Settings(BaseSettings):
     vision_backend: str = "local"  # "claude" | "local"
     ollama_host: str = "http://ollama:11434"
     vision_model: str = "llama3.2-vision:11b"
+    text_model: str = "llama3.2"  # text-only model for outfit suggestions
+
+    # Dev overrides — set in .env to use faster models during testing
+    dev_vision_model: str = ""
+    dev_text_model: str = ""
+
+    @property
+    def active_vision_model(self) -> str:
+        return self.dev_vision_model or self.vision_model
+
+    @property
+    def active_text_model(self) -> str:
+        return self.dev_text_model or self.text_model
 
     openweather_api_key: str
     openweather_base_url: str = "https://api.openweathermap.org/data/2.5"

@@ -8,6 +8,7 @@ from minio.error import S3Error
 from app.config import settings
 
 _client: Minio | None = None
+_external_client: Minio | None = None
 
 
 def get_client() -> Minio:
@@ -20,6 +21,22 @@ def get_client() -> Minio:
             secure=settings.minio_secure,
         )
     return _client
+
+
+def get_external_client() -> Minio:
+    """Client using the browser-reachable endpoint, for presigned URLs.
+    Region is set explicitly to avoid a network call to the unreachable endpoint."""
+    global _external_client
+    if _external_client is None:
+        endpoint = settings.minio_external_endpoint or settings.minio_endpoint
+        _external_client = Minio(
+            endpoint,
+            access_key=settings.minio_access_key,
+            secret_key=settings.minio_secret_key,
+            secure=settings.minio_secure,
+            region="us-east-1",
+        )
+    return _external_client
 
 
 def ensure_bucket() -> None:
@@ -43,7 +60,7 @@ def upload_image(user_id: UUID, item_id: UUID, data: bytes, content_type: str, e
 
 
 def get_presigned_url(key: str) -> str:
-    client = get_client()
+    client = get_external_client()
     return client.presigned_get_object(settings.minio_bucket, key, expires=timedelta(hours=1))
 
 

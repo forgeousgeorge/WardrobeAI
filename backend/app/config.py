@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     minio_secret_key: str
     minio_bucket: str = "wardrobe-images"
     minio_secure: bool = False
+    minio_external_endpoint: str = ""
 
     claude_api_key: str = ""
     claude_model: str = "claude-haiku-4-5-20251001"

@@ -1,3 +1,4 @@
+import logging
 import uuid
 from datetime import date
 
@@ -13,6 +14,8 @@ from app.models.user import User
 from app.schemas.clothing import ClothingItemResponse
 from app.schemas.outfit import OutfitSuggestionResponse, RateOutfitRequest
 from app.services import claude_service, minio_service, weather_service
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/outfits", tags=["outfits"])
 
@@ -52,9 +55,14 @@ async def suggest_outfit(
     )
     existing = cached.scalar_one_or_none()
     if existing:
-        item_ids = [uuid.UUID(i) if isinstance(i, str) else i for i in (existing.items or [])]
-        details = await _fetch_item_details(item_ids, current_user.id, db)
-        return _suggestion_response(existing, details)
+        # Auto-evict cached failures (empty items) so the AI is retried
+        if not existing.items:
+            await db.delete(existing)
+            await db.commit()
+        else:
+            item_ids = [uuid.UUID(i) if isinstance(i, str) else i for i in existing.items]
+            details = await _fetch_item_details(item_ids, current_user.id, db)
+            return _suggestion_response(existing, details)
 
     # Fetch weather
     try:
@@ -91,6 +99,17 @@ async def suggest_outfit(
     ]
 
     suggestion_data = await claude_service.suggest_outfit(weather, wardrobe_payload, occasion)
+
+    # Don't cache failed suggestions — return an error so the frontend shows a retry button
+    if "error" in suggestion_data or not suggestion_data.get("items"):
+        logger.warning(
+            "Outfit suggestion failed for user=%s, occasion=%s: %s",
+            current_user.id, occasion, suggestion_data.get("error", "empty items"),
+        )
+        raise HTTPException(
+            status_code=502,
+            detail=suggestion_data.get("reasoning", "Could not generate outfit suggestion. Please try again."),
+        )
 
     # Validate returned UUIDs against actual wardrobe
     wardrobe_ids = {str(item.id) for item in wardrobe}

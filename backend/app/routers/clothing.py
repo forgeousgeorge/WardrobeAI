@@ -2,7 +2,7 @@ import uuid
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile, status
-from PIL import Image
+from PIL import Image, ImageOps
 import io
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -62,7 +62,9 @@ async def upload_clothing(
     try:
         img = Image.open(io.BytesIO(image_bytes))
         img.verify()
-        img = Image.open(io.BytesIO(image_bytes)).convert("RGB")
+        img = Image.open(io.BytesIO(image_bytes))
+        img = ImageOps.exif_transpose(img)
+        img = img.convert("RGB")
         buf = io.BytesIO()
         img.save(buf, format="JPEG", quality=85)
         image_bytes = buf.getvalue()

@@ -4,7 +4,6 @@ from uuid import UUID
 
 from minio import Minio
 from minio.error import S3Error
-
 from app.config import settings
 
 _client: Minio | None = None

@@ -8,10 +8,13 @@ export interface OutfitSuggestion {
   weather_snapshot: {
     temp_c: number
     feels_like_c: number
+    temp_f: number
+    feels_like_f: number
     description: string
     icon_code: string
     humidity: number
     wind_kph: number
+    wind_mph: number
   } | null
   items: string[]
   reasoning: string | null

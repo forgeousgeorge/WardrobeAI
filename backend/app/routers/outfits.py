@@ -68,9 +68,11 @@ async def suggest_outfit(
     try:
         weather = await weather_service.get_weather_for_date(current_user.city, current_user.country_code, for_date)
     except Exception:
+        logger.warning("Weather fetch failed, using defaults", exc_info=True)
         weather = {
             "temp_c": 20.0, "feels_like_c": 20.0, "description": "unknown",
             "icon_code": "01d", "humidity": 50, "wind_kph": 0.0,
+            "temp_f": 68.0, "feels_like_f": 68.0, "wind_mph": 0.0,
         }
 
     # Fetch active wardrobe

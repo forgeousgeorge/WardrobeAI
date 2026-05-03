@@ -125,10 +125,10 @@ Given the weather and available wardrobe items below, suggest a complete outfit 
 Respond with ONLY a JSON object — no markdown, no explanation.
 
 Weather:
-- Temperature: {temp_c}°C (feels like {feels_like_c}°C)
+- Temperature: {temp_f}°F (feels like {feels_like_f}°F)
 - Conditions: {description}
 - Humidity: {humidity}%
-- Wind: {wind_kph} km/h
+- Wind: {wind_mph} mph
 
 Occasion: {occasion}
 
@@ -200,11 +200,11 @@ async def _classify_local(image_bytes: bytes, media_type: str) -> dict:
 
 async def _suggest_local(weather: dict, items: list[dict], occasion: str) -> dict:
     prompt = OUTFIT_PROMPT_TEMPLATE.format(
-        temp_c=weather.get("temp_c", "?"),
-        feels_like_c=weather.get("feels_like_c", "?"),
+        temp_f=weather.get("temp_f", "?"),
+        feels_like_f=weather.get("feels_like_f", "?"),
         description=weather.get("description", "unknown"),
         humidity=weather.get("humidity", "?"),
-        wind_kph=weather.get("wind_kph", "?"),
+        wind_mph=weather.get("wind_mph", "?"),
         occasion=occasion,
         items_json=json.dumps(items, indent=2),
     )
@@ -277,11 +277,11 @@ async def suggest_outfit(weather: dict, items: list[dict], occasion: str = "casu
 
     client = _get_client()
     prompt = OUTFIT_PROMPT_TEMPLATE.format(
-        temp_c=weather.get("temp_c", "?"),
-        feels_like_c=weather.get("feels_like_c", "?"),
+        temp_f=weather.get("temp_f", "?"),
+        feels_like_f=weather.get("feels_like_f", "?"),
         description=weather.get("description", "unknown"),
         humidity=weather.get("humidity", "?"),
-        wind_kph=weather.get("wind_kph", "?"),
+        wind_mph=weather.get("wind_mph", "?"),
         occasion=occasion,
         items_json=json.dumps(items, indent=2),
     )

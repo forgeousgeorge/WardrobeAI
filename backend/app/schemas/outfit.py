@@ -8,10 +8,13 @@ from app.schemas.clothing import ClothingItemResponse
 class WeatherSnapshot(BaseModel):
     temp_c: float
     feels_like_c: float
+    temp_f: float
+    feels_like_f: float
     description: str
     icon_code: str
     humidity: int
     wind_kph: float
+    wind_mph: float
 
 
 class OutfitSuggestionResponse(BaseModel):

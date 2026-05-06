@@ -178,7 +178,8 @@ async def _classify_local(image_bytes: bytes, media_type: str) -> dict:
         "prompt": LOCAL_CLASSIFICATION_PROMPT,
         "images": [b64],
         "stream": False,
-        "options": {"temperature": 0.1},
+        "keep_alive": settings.ollama_keep_alive,
+        "options": {"temperature": 0.1, "num_ctx": settings.ollama_num_ctx},
     }
     for attempt in range(3):
         try:
@@ -212,7 +213,8 @@ async def _suggest_local(weather: dict, items: list[dict], occasion: str) -> dic
         "model": settings.active_text_model,
         "prompt": prompt,
         "stream": False,
-        "options": {"temperature": 0.4},
+        "keep_alive": settings.ollama_keep_alive,
+        "options": {"temperature": 0.4, "num_ctx": settings.ollama_num_ctx},
     }
     for attempt in range(3):
         try:

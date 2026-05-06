@@ -70,7 +70,7 @@ export default function PhotoUploader() {
           </div>
           {uploading ? (
             <div className="flex flex-col items-center py-4">
-              <div className="w-8 h-8 border-4 border-brand-500 border-t-transparent rounded-full animate-spin mb-2" />
+              <div className="w-8 h-8 rounded-full bg-brand-500 animate-pulse mb-2" />
               <p className="text-sm text-gray-600">Analyzing your item with AI…</p>
             </div>
           ) : (

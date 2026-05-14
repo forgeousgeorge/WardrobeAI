@@ -30,6 +30,10 @@ class Settings(BaseSettings):
     dev_vision_model: str = ""
     dev_text_model: str = ""
 
+    # Ollama performance settings
+    ollama_keep_alive: str = "0"   # "0" = unload from VRAM immediately; "5m" = keep warm for 5 minutes
+    ollama_num_ctx: int = 4096     # context window — reduces peak VRAM vs llama3.2 default (up to 131072)
+
     @property
     def active_vision_model(self) -> str:
         return self.dev_vision_model or self.vision_model
